@@ -1,0 +1,33 @@
+name: lint
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  build:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Install dependencies and config
+        run: |
+          corepack enable
+          pnpm install
+          pnpm ioc-generate
+
+      - name: Check types
+        run: pnpm check-types
+
+      - name: ESlint
+        run: pnpm lint
+
+      - name: Check formatting
+        run: pnpm prettier-check
