@@ -1,4 +1,11 @@
-import { Links, Meta, Outlet, Scripts } from "@remix-run/react";
+import { captureRemixErrorBoundaryError } from "@sentry/remix";
+import { Links, Meta, Outlet, Scripts, useRouteError } from "@remix-run/react";
+
+export const ErrorBoundary = () => {
+  const error = useRouteError();
+  captureRemixErrorBoundaryError(error);
+  return <div>Something went wrong</div>;
+};
 
 export default function App() {
   return (
