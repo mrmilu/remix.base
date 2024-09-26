@@ -1,0 +1,7 @@
+build
+coverage
+./.husky/install.mjs
+*.yaml
+*.yml
+*.json
+*.md
