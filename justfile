@@ -22,6 +22,13 @@ fix:
     ./nvm_exec.sh pnpm lint-fix
     ./nvm_exec.sh pnpm prettier-fix
 
+# Generate inversify bindings
+ioc-generate:
+    ./nvm_exec.sh pnpm ioc-generate
+
+ioc-generate-watch:
+    ./nvm_exec.sh pnpm ioc-generate --watch
+    
 # Commit
 commit:
     ./nvm_exec.sh pnpm commit
