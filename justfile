@@ -17,6 +17,10 @@ dev:
 build:
     ./nvm_exec.sh pnpm build
 
+# Starts remix vite server from build output
+start:
+    ./nvm_exec.sh pnpm start
+
 # Runs linting and formatting.
 fix:
     ./nvm_exec.sh pnpm lint-fix
@@ -28,7 +32,7 @@ ioc-generate:
 
 ioc-generate-watch:
     ./nvm_exec.sh pnpm ioc-generate --watch
-    
+
 # Commit
 commit:
     ./nvm_exec.sh pnpm commit
