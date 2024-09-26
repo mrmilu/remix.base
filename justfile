@@ -17,9 +17,14 @@ dev:
 build:
     ./nvm_exec.sh pnpm build
 
+# Runs linting and formatting.
 fix:
     ./nvm_exec.sh pnpm lint-fix
     ./nvm_exec.sh pnpm prettier-fix
+
+# Commit
+commit:
+    ./nvm_exec.sh pnpm commit
 
 # Proxy comand through nvm
 nvm-exec command:
