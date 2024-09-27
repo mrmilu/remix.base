@@ -5,7 +5,7 @@ import { hydrateRoot } from "react-dom/client";
 
 import { locator } from "@/src/shared/ioc/__generated__";
 import { TYPES } from "@/src/shared/ioc/__generated__/types";
-import type { IEnvVars } from "@/src/shared/domain/interfaces/env_vars";
+import type { IEnvVars } from "@/src/shared/domain/interfaces/env-vars";
 
 if (locator.get<IEnvVars>(TYPES.IEnvVars).sentryEnabled) {
   Sentry.init({

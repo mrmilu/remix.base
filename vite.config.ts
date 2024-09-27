@@ -1,11 +1,22 @@
+import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
+import svgr from "vite-plugin-svgr";
 import * as path from "path";
 
 export default defineConfig({
   plugins: [
     remix(),
+    svgr({
+      svgrOptions: {
+        dimensions: false,
+        svgoConfig: {
+          plugins: [{ name: "removeViewBox", active: false }]
+        }
+      }
+    }),
+    vanillaExtractPlugin(),
     sentryVitePlugin({
       disable: !process.env.SENTRY_ENABLED,
       org: process.env.SENTRY_ORG,

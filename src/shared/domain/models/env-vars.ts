@@ -1,11 +1,11 @@
-import type { IEnvVars } from "../interfaces/env_vars";
 import { injectable } from "inversify";
 import { generatorConf } from "inversify-generator/decorators";
+import type { IEnvVars } from "../interfaces/env-vars";
 
 @injectable()
 @generatorConf({ binding: "default" })
-class EnvVars implements IEnvVars {
-  serverUrl: string = import.meta.env.VITE_APP_API_URL ? `${import.meta.env.VITE_APP_API_URL}${this.isProduction ? "" : "/rest"}` : "";
+export class EnvVars implements IEnvVars {
+  serverUrl: string = import.meta.env.VITE_APP_API_URL || "";
 
   get isProduction() {
     return import.meta.env.MODE === "production";
@@ -15,5 +15,3 @@ class EnvVars implements IEnvVars {
 
   sentryEnabled: boolean = import.meta.env.VITE_APP_SENTRY_ENABLED === "true";
 }
-
-export { EnvVars };
