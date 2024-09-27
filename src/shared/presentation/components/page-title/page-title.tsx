@@ -1,4 +1,4 @@
-import { useBreakpointsMatch } from "@front_web_mrmilu/hooks";
+import styles from "./page-title.css";
 
 interface Props {
   title: string;
@@ -6,9 +6,8 @@ interface Props {
 }
 
 export const PageTitle = ({ title, subtitle }: Props) => {
-  const { mdAndUp } = useBreakpointsMatch();
-  return mdAndUp ? (
-    <div>
+  return (
+    <div className={styles.container}>
       <h2>{title}</h2>
       {subtitle && (
         <>
@@ -17,8 +16,6 @@ export const PageTitle = ({ title, subtitle }: Props) => {
         </>
       )}
     </div>
-  ) : (
-    <></>
   );
 };
 
