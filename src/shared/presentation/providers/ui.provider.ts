@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ReactNode } from "react";
-import { createStore } from "zustand";
-import { useStoreWithEqualityFn } from "zustand/traditional";
+import { createStore, useStore } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import type { UiStateViewModel } from "../view-models/ui-state";
 
@@ -43,7 +42,7 @@ export const uiProvider = createStore<UiStateViewModel>()(
 );
 
 export function useUiProvider(): UiStateViewModel;
-export function useUiProvider<T>(selector: (state: UiStateViewModel) => T, equals?: (a: T, b: T) => boolean): T;
-export function useUiProvider(selector?: any, equals?: any) {
-  return useStoreWithEqualityFn(uiProvider, selector, equals);
+export function useUiProvider<T>(selector: (state: UiStateViewModel) => T): T;
+export function useUiProvider(selector?: any) {
+  return useStore(uiProvider, selector);
 }

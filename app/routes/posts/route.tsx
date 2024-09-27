@@ -3,10 +3,9 @@ import { TYPES } from "@/ioc/__generated__/types";
 import type { IocProvider } from "@/ioc/interfaces";
 import type { GetPostsUseCase } from "@/src/posts/application/use-cases/get-posts-use-case";
 import { useLoaderData } from "@remix-run/react";
-import { lazy } from "react";
 import { json } from "@remix-run/node";
 
-const PostsListPage = lazy(() => import("@/src/posts/presentation/pages/posts-list/posts-list"));
+import PostsListPage from "@/src/posts/presentation/pages/posts-list/posts-list";
 
 export default function PostsPage() {
   const data = useLoaderData<typeof loader>();

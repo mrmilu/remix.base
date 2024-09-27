@@ -56,6 +56,9 @@ importers:
       i18next-browser-languagedetector:
         specifier: ^8.0.0
         version: 8.0.0
+      i18next-fetch-backend:
+        specifier: ^6.0.0
+        version: 6.0.0
       i18next-http-backend:
         specifier: ~2.4.3
         version: 2.4.3
@@ -77,6 +80,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      pretty-cache-header:
+        specifier: ^1.0.0
+        version: 1.0.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -95,9 +101,9 @@ importers:
       remix-i18next:
         specifier: ^6.4.1
         version: 6.4.1(@remix-run/node@2.12.1(typescript@5.6.2))(@remix-run/react@2.12.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.2))(i18next@23.9.0)(react-i18next@15.0.2(i18next@23.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      yup:
-        specifier: ^1.4.0
-        version: 1.4.0
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
       zustand:
         specifier: 5.0.0-rc.2
         version: 5.0.0-rc.2(@types/react@18.3.9)(immer@10.1.1)(react@18.3.1)
@@ -162,6 +168,9 @@ importers:
       vite:
         specifier: ^5.4.8
         version: 5.4.8(@types/node@22.7.2)
+      vite-env-only:
+        specifier: ^3.0.3
+        version: 3.0.3(vite@5.4.8(@types/node@22.7.2))
       vite-plugin-svgr:
         specifier: ^4.2.0
         version: 4.2.0(rollup@4.22.4)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.2))
@@ -1724,6 +1733,9 @@ packages:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
     engines: {node: '>= 0.4'}
 
+  babel-dead-code-elimination@1.0.6:
+    resolution: {integrity: sha512-JxFi9qyRJpN0LjEbbjbN8g0ux71Qppn9R8Qe3k6QzHg2CaKsbUQtbn307LQGiDLGjV6JCtEFqfxzVig9MyDCHQ==}
+
   bail@2.0.2:
     resolution: {integrity: sha512-0xO6mYd7JB2YesxDKplafRpsiOzPt9V02ddPCLbY1xYGPOX24NTyN50qnUxgCPcSoYMhKpAuBTjQoRZCAkUDRw==}
 
@@ -2668,6 +2680,10 @@ packages:
 
   i18next-browser-languagedetector@8.0.0:
     resolution: {integrity: sha512-zhXdJXTTCoG39QsrOCiOabnWj2jecouOqbchu3EfhtSHxIB5Uugnm9JaizenOy39h7ne3+fLikIjeW88+rgszw==}
+
+  i18next-fetch-backend@6.0.0:
+    resolution: {integrity: sha512-kVqnydqLVMZfVlOuP2nf71cREydlxEKLH43jUXAFdOku/GF+6b9fBg31anoos5XncdhdtiYgL9fheqMrtXRwng==}
+    engines: {node: '>=18'}
 
   i18next-http-backend@2.4.3:
     resolution: {integrity: sha512-jo2M03O6n1/DNb51WSQ8PsQ0xEELzLZRdYUTbf17mLw3rVwnJF9hwNgMXvEFSxxb+N8dT+o0vtigA6s5mGWyPA==}
@@ -3755,6 +3771,10 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  pretty-cache-header@1.0.0:
+    resolution: {integrity: sha512-xtXazslu25CdnGnUkByU1RoOjK55TqwatJkjjJLg5ZAdz2Lngko/mmaUgeET36P2GMlNwh3fdM7FWBO717pNcw==}
+    engines: {node: '>=12.13'}
+
   pretty-ms@7.0.1:
     resolution: {integrity: sha512-973driJZvxiGOQ5ONsFhOF/DtzPMOMtgC11kCpUrPGMTgqp2q/1gwzCquocrN33is0VZ5GFHXZYMM9l6h67v2Q==}
     engines: {node: '>=10'}
@@ -4282,6 +4302,10 @@ packages:
   through@2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
 
+  timestring@6.0.0:
+    resolution: {integrity: sha512-wMctrWD2HZZLuIlchlkE2dfXJh7J2KDI9Dwl+2abPYg0mswQHfOAyQW3jJg1pY5VfttSINZuKcXoB3FGypVklA==}
+    engines: {node: '>=8'}
+
   tiny-case@1.0.3:
     resolution: {integrity: sha512-Eet/eeMhkO6TX8mnUteS9zgPbUMQa4I6Kkp5ORiBD5476/m+PIRiumP5tmh5ioJpH7k51Kehawy2UDfsnxxY8Q==}
 
@@ -4487,6 +4511,11 @@ packages:
   vfile@5.3.7:
     resolution: {integrity: sha512-r7qlzkgErKjobAmyNIkkSpizsFPYiUPuJb5pNW1RB4JcYVZhs4lIbVqk8XPk033CV/1z8ss5pkax8SuhGpcG8g==}
 
+  vite-env-only@3.0.3:
+    resolution: {integrity: sha512-iAb7cTXRrvFShaF1n+G8f6Yqq7sRJcxipNYNQQu0DN5N9P55vJMmLG5lNU5moYGpd+ZH1WhBHdkWi5WjrfImHg==}
+    peerDependencies:
+      vite: '*'
+
   vite-node@1.6.0:
     resolution: {integrity: sha512-de6HJgzC+TFzOu0NTC4RAIsyf/DY/ibWDYQUcuEA84EMHhcefTUGkjFHKKEJhQN4A+6I0u++kr3l36ZF2d7XRw==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -4662,6 +4691,9 @@ packages:
 
   zen-observable@0.8.15:
     resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
+
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
   zustand@5.0.0-rc.2:
     resolution: {integrity: sha512-o2Nwuvnk8vQBX7CcHL8WfFkZNJdxB/VKeWw0tNglw8p4cypsZ3tRT7rTRTDNeUPFS0qaMBRSKe+fVwL5xpcE3A==}
@@ -6594,6 +6626,15 @@ snapshots:
 
   axobject-query@4.1.0: {}
 
+  babel-dead-code-elimination@1.0.6:
+    dependencies:
+      '@babel/core': 7.25.2
+      '@babel/parser': 7.25.6
+      '@babel/traverse': 7.25.6
+      '@babel/types': 7.25.6
+    transitivePeerDependencies:
+      - supports-color
+
   bail@2.0.2: {}
 
   balanced-match@1.0.2: {}
@@ -7772,6 +7813,8 @@ snapshots:
   i18next-browser-languagedetector@8.0.0:
     dependencies:
       '@babel/runtime': 7.25.6
+
+  i18next-fetch-backend@6.0.0: {}
 
   i18next-http-backend@2.4.3:
     dependencies:
@@ -8986,6 +9029,10 @@ snapshots:
 
   prettier@3.3.3: {}
 
+  pretty-cache-header@1.0.0:
+    dependencies:
+      timestring: 6.0.0
+
   pretty-ms@7.0.1:
     dependencies:
       parse-ms: 2.1.0
@@ -9572,6 +9619,8 @@ snapshots:
 
   through@2.3.8: {}
 
+  timestring@6.0.0: {}
+
   tiny-case@1.0.3: {}
 
   tinyexec@0.3.0: {}
@@ -9798,6 +9847,19 @@ snapshots:
       unist-util-stringify-position: 3.0.3
       vfile-message: 3.1.4
 
+  vite-env-only@3.0.3(vite@5.4.8(@types/node@22.7.2)):
+    dependencies:
+      '@babel/core': 7.25.2
+      '@babel/generator': 7.25.6
+      '@babel/parser': 7.25.6
+      '@babel/traverse': 7.25.6
+      '@babel/types': 7.25.6
+      babel-dead-code-elimination: 1.0.6
+      micromatch: 4.0.8
+      vite: 5.4.8(@types/node@22.7.2)
+    transitivePeerDependencies:
+      - supports-color
+
   vite-node@1.6.0(@types/node@22.7.2):
     dependencies:
       cac: 6.7.14
@@ -9977,6 +10039,8 @@ snapshots:
       zen-observable: 0.8.15
 
   zen-observable@0.8.15: {}
+
+  zod@3.23.8: {}
 
   zustand@5.0.0-rc.2(@types/react@18.3.9)(immer@10.1.1)(react@18.3.1):
     optionalDependencies:

@@ -2,8 +2,7 @@ import type { ConstructorType } from "@/src/shared/domain/models/constructor-typ
 import type { PropsWithChildren } from "react";
 import { createContext, useContext, useRef } from "react";
 import type { StateCreator, StoreMutatorIdentifier } from "zustand";
-import { createStore } from "zustand";
-import { useStoreWithEqualityFn } from "zustand/traditional";
+import { createStore, useStore } from "zustand";
 
 import { immer } from "zustand/middleware/immer";
 
@@ -70,14 +69,14 @@ export function createProvider<T extends object, P extends object = never>(
   };
 
   type UseStoreWithProvider = {
-    <U>(selector: (state: T) => U, equalityFn?: ((a: U, b: U) => boolean) | undefined): U;
+    <U>(selector: (state: T) => U): U;
     State: typeof State;
   };
 
-  const useStoreWithProvider: UseStoreWithProvider = function <U>(selector: (state: T) => U, equalityFn?: ((a: U, b: U) => boolean) | undefined) {
+  const useStoreWithProvider: UseStoreWithProvider = function <U>(selector: (state: T) => U) {
     const store = useContext(Context);
     if (!store) throw new Error("Provider is out of scope");
-    return useStoreWithEqualityFn<StoreType, U>(store, selector, equalityFn);
+    return useStore<StoreType, U>(store, selector);
   };
   useStoreWithProvider.State = State;
 

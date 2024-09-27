@@ -33,6 +33,7 @@
     "class-transformer": "^0.5.1",
     "i18next": "~23.9.0",
     "i18next-browser-languagedetector": "^8.0.0",
+    "i18next-fetch-backend": "^6.0.0",
     "i18next-http-backend": "~2.4.3",
     "i18next-resources-to-backend": "~1.2.0",
     "immer": "^10.1.1",
@@ -40,13 +41,14 @@
     "inversify-generator": "^0.1.5",
     "isbot": "4",
     "lodash": "^4.17.21",
+    "pretty-cache-header": "^1.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
     "react-i18next": "^15.0.2",
     "reflect-metadata": "^0.2.2",
     "remix-i18next": "^6.4.1",
-    "yup": "^1.4.0",
+    "zod": "^3.23.8",
     "zustand": "5.0.0-rc.2"
   },
   "devDependencies": {
@@ -70,6 +72,7 @@
     "prettier": "~3.3.2",
     "typescript": "^5.6.2",
     "vite": "^5.4.8",
+    "vite-env-only": "^3.0.3",
     "vite-plugin-svgr": "^4.2.0"
   },
   "engines": {
