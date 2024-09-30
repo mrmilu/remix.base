@@ -10,8 +10,12 @@ Run `just` to display the list of available commands.
 
 - `just corepack-enable`: Enables Corepack in Node.js.
 - `just install-deps`: Installs the dependencies listed in the project's package.json.
-- `just dev`: Starts the vite development server.
-- `just build`: Builds the application using vite.
+- `just dev`: Starts the Remix development server.
+- `just build`: Builds the Remix application.
+- `just start`: Starts the server for the built Remix application.
 - `just fix`: Runs linting and formatting.
+- `just ioc-generate`: Generates Inversify bindings.
+- `just ioc-generate-watch`: Generates Inversify bindings and watches for changes.
+- `just commit`: Commits changes using commitlint
 - `just nvm exec {{command}}`: Proxies a command through nvm. Replace `{{command}}` with the desired command to execute.
 
