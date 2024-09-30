@@ -1,6 +1,7 @@
 export default {
   homeTitle: "Remix base",
   postsTitle: "Página de posts",
+  usersTitle: "Página de usuarios",
   helloWorld: "Hola mundo desde next-i18n",
   form: {
     errors: {
