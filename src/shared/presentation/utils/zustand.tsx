@@ -1,6 +1,6 @@
 import type { ConstructorType } from "@/src/shared/domain/models/constructor-type";
 import type { PropsWithChildren } from "react";
-import { createContext, useContext, useRef } from "react";
+import { createContext, useContext } from "react";
 import type { StateCreator, StoreMutatorIdentifier } from "zustand";
 import { createStore, useStore } from "zustand";
 
@@ -46,6 +46,7 @@ export function createProvider<T extends object, P extends object = never>(
   const factoryInitializer = ({ initialState, builderProps }: FactoryInitializerParams<T, P>) => {
     if (initialState && builderProps) throw new Error("Both initialState and builderProps can't be used at the same time");
     const base = builderMiddleware(builderProps || ({} as P), builderInitializer);
+
     if (initialState) {
       return immer(merge(initialState, base));
     } else {
@@ -64,7 +65,8 @@ export function createProvider<T extends object, P extends object = never>(
 
   const State = ({ children, initialState, builderProps }: PropsWithChildren<StateProviderProps<T, P>>) => {
     const _initialState = initialState as T | undefined;
-    const store = useRef(storeFactory({ initialState: _initialState, builderProps })).current;
+    const store = storeFactory({ initialState: _initialState, builderProps });
+
     return <Context.Provider value={store}>{children}</Context.Provider>;
   };
 
