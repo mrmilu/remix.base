@@ -6,11 +6,16 @@ import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 
 import PostsListPage from "@/src/posts/presentation/pages/posts-list/posts-list";
+import { usePostsListProvider } from "@/src/posts/presentation/providers/posts-list.provider";
 
 export default function PostsPage() {
   const data = useLoaderData<typeof loader>();
 
-  return <PostsListPage posts={data} />;
+  return (
+    <usePostsListProvider.State initialState={{ posts: data }}>
+      <PostsListPage />
+    </usePostsListProvider.State>
+  );
 }
 
 export async function loader() {

@@ -1,10 +1,12 @@
 import css from "@/src/shared/presentation/styles/wrapper.css";
 import { SimpleCard } from "@/src/shared/presentation/components/simple-card/simple-card";
-import type { Post } from "@/src/posts/domain/models/post";
 import { useTranslation } from "react-i18next";
 import PageTitle from "@/src/shared/presentation/components/page-title/page-title";
+import { usePostsListProvider } from "../../providers/posts-list.provider";
 
-export default function PostsPage({ posts }: { posts: Array<Post> }) {
+export default function PostsPage() {
+  const posts = usePostsListProvider((state) => state.posts);
+
   const { t } = useTranslation();
 
   return (
