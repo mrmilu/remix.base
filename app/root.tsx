@@ -26,6 +26,7 @@ import { useChangeLanguage } from "remix-i18next/react";
 
 import { type ActionFunctionArgs, json, type LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { commitSession, destroySession, getSession } from "@/src/shared/presentation/controllers/session-controller";
+import { useTranslation } from "react-i18next";
 
 export const ErrorBoundary = () => {
   const error = useRouteError();
@@ -68,6 +69,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   const loaderData = useRouteLoaderData<typeof loader>("root");
 
+  const { t } = useTranslation();
+
   return (
     <html lang={loaderData?.locale ?? "en"}>
       <head>
@@ -97,7 +100,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 </li>
               </ul>
               <Form method="POST" action={action}>
-                <Button type="submit">{loaderData?.loggedIn ? "Log out" : "Log in"}</Button>
+                <Button type="submit">{loaderData?.loggedIn ? t("signOut") : t("signIn")}</Button>
               </Form>
             </nav>
             <main className={css.main}>{children}</main>

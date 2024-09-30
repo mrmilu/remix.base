@@ -25,5 +25,7 @@ export default {
         placeholder: "30"
       }
     }
-  }
+  },
+  signIn: "Iniciar sesión",
+  signOut: "Cerrar sesión"
 };
