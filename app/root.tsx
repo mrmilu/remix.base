@@ -116,7 +116,6 @@ export default function App() {
 
   useChangeLanguage(locale);
 
-  console.log("something is going on here", loggedIn);
   return (
     <useAuthProvider.State initialState={{ loggedIn }}>
       <Outlet />
