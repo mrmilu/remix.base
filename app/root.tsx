@@ -39,7 +39,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const locale = await i18nServer.getLocale(request);
   const session = await getSession(request.headers.get("Cookie"));
 
-  return json({ locale, loggedIn: !!session.has("userId") }, { headers: { "Set-Cookie": await localeCookie.serialize(locale) } });
+  return json({ locale, loggedIn: session.has("userId") }, { headers: { "Set-Cookie": await localeCookie.serialize(locale) } });
 }
 
 export async function action({ request }: ActionFunctionArgs) {
