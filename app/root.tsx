@@ -1,6 +1,18 @@
 import { captureRemixErrorBoundaryError } from "@sentry/remix";
-import { Link, Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData, useRouteError, useRouteLoaderData } from "@remix-run/react";
-import { useUserProvider } from "@/src/shared/presentation/providers/user.provider";
+import {
+  Form,
+  Link,
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useFormAction,
+  useLoaderData,
+  useRouteError,
+  useRouteLoaderData
+} from "@remix-run/react";
+import { useAuthProvider } from "@/src/shared/presentation/providers/auth.provider";
 import { Button } from "@/src/shared/presentation/components/button/button";
 import { MainLoader } from "@/src/shared/presentation/components/main-loader/main-loader";
 import { Modal } from "@/src/shared/presentation/containers/modal/modal";
@@ -12,7 +24,8 @@ import css from "./root.css";
 import i18nServer, { localeCookie } from "@/src/shared/presentation/i18n/i18n.server";
 import { useChangeLanguage } from "remix-i18next/react";
 
-import { json, type LoaderFunctionArgs } from "@remix-run/node";
+import { type ActionFunctionArgs, json, type LoaderFunctionArgs, redirect } from "@remix-run/node";
+import { commitSession, destroySession, getSession } from "@/src/shared/presentation/controllers/session-controller";
 
 export const ErrorBoundary = () => {
   const error = useRouteError();
@@ -24,17 +37,36 @@ export const handle = { i18n: ["translation"] };
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const locale = await i18nServer.getLocale(request);
-  return json({ locale }, { headers: { "Set-Cookie": await localeCookie.serialize(locale) } });
+  const session = await getSession(request.headers.get("Cookie"));
+
+  return json({ locale, loggedIn: !!session.has("userId") }, { headers: { "Set-Cookie": await localeCookie.serialize(locale) } });
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
-  const loaderData = useRouteLoaderData<typeof loader>("root");
-  const userLogged = useUserProvider((state) => state.logged);
-  const setLogged = useUserProvider((state) => state.setLogged);
+export async function action({ request }: ActionFunctionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
 
-  const logUser = () => {
-    setLogged(!userLogged);
-  };
+  const userId = "2"; // hardcoded user id for demonstration purposes
+
+  if (session.has("userId")) {
+    return redirect("/", {
+      headers: {
+        "Set-Cookie": await destroySession(session)
+      }
+    });
+  } else {
+    session.set("userId", userId);
+
+    return redirect(request.url, {
+      headers: {
+        "Set-Cookie": await commitSession(session)
+      }
+    });
+  }
+}
+export function Layout({ children }: { children: React.ReactNode }) {
+  const action = useFormAction();
+
+  const loaderData = useRouteLoaderData<typeof loader>("root");
 
   return (
     <html lang={loaderData?.locale ?? "en"}>
@@ -64,9 +96,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <Link to="/posts">list post</Link>
                 </li>
               </ul>
-              <Button data-cy="login-btn" onClick={logUser}>
-                {userLogged ? "Log out" : "Log in"}
-              </Button>
+              <Form method="POST" action={action}>
+                <Button type="submit">{loaderData?.loggedIn ? "Log out" : "Log in"}</Button>
+              </Form>
             </nav>
             <main className={css.main}>{children}</main>
             <footer className={css.footer}>cool footer</footer>
@@ -80,7 +112,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { locale } = useLoaderData<typeof loader>();
+  const { loggedIn, locale } = useLoaderData<typeof loader>();
+
   useChangeLanguage(locale);
-  return <Outlet />;
+
+  console.log("something is going on here", loggedIn);
+  return (
+    <useAuthProvider.State initialState={{ loggedIn }}>
+      <Outlet />
+    </useAuthProvider.State>
+  );
 }

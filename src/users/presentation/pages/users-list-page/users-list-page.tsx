@@ -11,9 +11,10 @@ export default function UsersListPage() {
   const users = useUsersListProvider((state) => state.users);
 
   const { t } = useTranslation();
+
   const showModal = useUiProvider((state) => state.showModal);
   const showUserModal = (user: User) => {
-    showModal(<UserModal user={user} data-cy="user-modal" />);
+    showModal(<UserModal user={user} />);
   };
 
   return (
