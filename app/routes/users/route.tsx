@@ -1,7 +1,7 @@
 import { locator } from "@/ioc/__generated__";
 import { TYPES } from "@/ioc/__generated__/types";
 import type { IocProvider } from "@/ioc/interfaces";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useRouteError } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import UsersListPage from "@/src/users/presentation/pages/users-list-page/users-list-page";
 import type { GetUsersUseCase } from "@/src/users/application/use-cases/get-users-use-case";
@@ -10,6 +10,13 @@ import { useUiProvider } from "@/src/shared/presentation/providers/ui.provider";
 import { useAuthProvider } from "@/src/shared/presentation/providers/auth.provider";
 import { LoggingModal } from "@/src/shared/presentation/components/logging-modal/logging-modal";
 import { useEffect } from "react";
+import { captureRemixErrorBoundaryError } from "@sentry/remix";
+
+export const ErrorBoundary = () => {
+  const error = useRouteError();
+  captureRemixErrorBoundaryError(error);
+  return <div>Something went wrong in users page</div>;
+};
 
 export default function UsersPage() {
   const data = useLoaderData<typeof loader>();

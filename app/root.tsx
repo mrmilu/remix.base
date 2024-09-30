@@ -1,17 +1,4 @@
-import { captureRemixErrorBoundaryError } from "@sentry/remix";
-import {
-  Form,
-  Link,
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useFormAction,
-  useLoaderData,
-  useRouteError,
-  useRouteLoaderData
-} from "@remix-run/react";
+import { Form, Link, Links, Meta, Outlet, Scripts, ScrollRestoration, useFormAction, useLoaderData, useRouteLoaderData } from "@remix-run/react";
 import { useAuthProvider } from "@/src/shared/presentation/providers/auth.provider";
 import { Button } from "@/src/shared/presentation/components/button/button";
 import { MainLoader } from "@/src/shared/presentation/components/main-loader/main-loader";
@@ -27,12 +14,6 @@ import { useChangeLanguage } from "remix-i18next/react";
 import { type ActionFunctionArgs, json, type LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { commitSession, destroySession, getSession } from "@/src/shared/presentation/controllers/session-controller";
 import { useTranslation } from "react-i18next";
-
-export const ErrorBoundary = () => {
-  const error = useRouteError();
-  captureRemixErrorBoundaryError(error);
-  return <div>Something went wrong</div>;
-};
 
 export const handle = { i18n: ["translation"] };
 
