@@ -31,7 +31,15 @@ export default defineConfig({
   ],
 
   server: {
-    port: 3000
+    port: 3000,
+    proxy: {
+      "/cms": {
+        // NOTE: We are proxying the request to pepecar v7 for example purposes. This might fail in the future
+        // if v7 instance is discontinued.
+        target: "https://pepecar-cms-v7.mrmilu.com/cms",
+        changeOrigin: true
+      }
+    }
   },
 
   resolve: {

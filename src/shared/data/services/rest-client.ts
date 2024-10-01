@@ -1,8 +1,9 @@
-import type { AxiosInstance, AxiosResponse } from "axios";
+import type { AxiosHeaders, AxiosInstance, AxiosResponse } from "axios";
 import axios from "axios";
 
 export interface GetRequestOptions {
   params?: Record<string, unknown>;
+  headers?: AxiosHeaders;
   paramsSerializer?: {
     encode: (params: Record<string, unknown>) => string;
   };

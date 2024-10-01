@@ -1,5 +1,8 @@
+import type { AxiosHeaders } from "axios";
+
 export interface RestDataSourceOptions {
   params?: Record<string, unknown>;
+  headers?: AxiosHeaders;
 }
 
 export interface RestDataSourceOptionsWithData<D = unknown> {

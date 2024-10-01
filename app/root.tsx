@@ -79,6 +79,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <li>
                   <Link to="/posts">list post</Link>
                 </li>
+                <li>
+                  <Link to="/quienes-somos">JSON API page</Link>
+                </li>
               </ul>
               <Form method="POST" action={action}>
                 <Button type="submit">{loaderData?.loggedIn ? t("signOut") : t("signIn")}</Button>
