@@ -48,11 +48,33 @@ export default defineConfig({
       {
         find: "@/ioc",
         replacement: path.resolve(__dirname, "src/shared/ioc")
+      },
+      {
+        find: "@schema-data-loader/core/decorators",
+        replacement: path.resolve("node_modules/@schema-data-loader/core/decorators/dist/schema-data-loader-core-decorators.cjs.js")
+      },
+      {
+        find: "@schema-data-loader/core/resolver",
+        replacement: path.resolve("node_modules/@schema-data-loader/core/resolver/dist/schema-data-loader-core-resolver.cjs.js")
+      },
+      {
+        find: "class-transformer/cjs/storage.js",
+        replacement: path.resolve("node_modules/class-transformer/cjs/storage.js")
+      },
+      {
+        find: "class-transformer",
+        replacement: path.resolve("node_modules/class-transformer/cjs")
       }
     ]
   },
+  
+  ssr: {
+    optimizeDeps: {
+      include: ["class-transformer", "@schema-data-loader/core/decorators", "@schema-data-loader/core/resolver"]
+    }
+  },
 
   build: {
-    sourcemap: true
+    sourcemap: true,
   }
 });

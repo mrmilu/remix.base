@@ -1,10 +1,9 @@
 import { Entity, ExposeAll } from "@schema-data-loader/core/decorators";
-import { Type } from "class-transformer";
+import { Type, Transform } from "class-transformer";
 import { FieldTextSchema } from "@/src/cms/data/dtos/field-text-schema";
 import { MediaImageSchema } from "@/src/cms/data/dtos/media-image-schema";
 import { CMSLandingContent } from "@/src/cms/domain/models/cms-landing-content";
 import { Breadcrumb, BreadcrumbItem } from "@/src/cms/domain/models/breadcrumb";
-import { Transform } from "class-transformer";
 import { Datalayer } from "@/src/cms/domain/models/datalayer";
 import { RichSnippetMetatagSchema } from "@/src/cms/data/dtos/rich-snippet-metatag-schema";
 import type { DataModel } from "@/src/shared/data/models/data-model";
@@ -40,13 +39,10 @@ export class CMSLandingContentSchema implements DataModel<CMSLandingContent> {
   @Type(() => MediaImageSchema)
   fieldHeaderImgMedia? = new MediaImageSchema();
 
-  fieldHasAmp? = false;
-  @Type(() => FieldTextSchema)
-  fieldAmpBody? = new FieldTextSchema();
-
   fieldLandingLayout? = "";
 
   fieldHasBreadcrumbVisible? = false;
+
   fieldBreadcrumbLabel? = "";
 
   @Entity()

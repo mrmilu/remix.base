@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { Form, Link, Links, Meta, Outlet, Scripts, ScrollRestoration, useFormAction, useLoaderData, useRouteLoaderData } from "@remix-run/react";
 import { useAuthProvider } from "@/src/shared/presentation/providers/auth.provider";
 import { Button } from "@/src/shared/presentation/components/button/button";
