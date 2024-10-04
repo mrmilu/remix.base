@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "postinstall": "node scripts/patches/class-transformer-0.5.1.patch.js && node scripts/patches/@schema-data-loader-0.2.4.patch",
     "prepare": "husky",
     "build": "remix vite:build",
     "dev": "remix vite:dev",
