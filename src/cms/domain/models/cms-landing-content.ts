@@ -4,6 +4,10 @@ import type { Datalayer } from "./datalayer";
 import type { Breadcrumb } from "./breadcrumb";
 import type { MediaImage } from "./media-image";
 import type { FieldText } from "./field-text";
+import type { BlockLinkList } from "./block/block-link-list";
+import type { BlockOldHTML } from "./block/block-old-html";
+import type { BlockTextHTML } from "./block/block-text-html";
+import type { ParagraphListWrapper } from "./paragraph/paragraph-list-wrapper";
 
 export class CMSLandingContent {
   title: string;
@@ -15,6 +19,8 @@ export class CMSLandingContent {
   breadcrumbs: Breadcrumb;
   dataLayer: Datalayer;
   richSnippets?: Array<RichSnippetMetatag>;
+  fieldContentParagraphs?: Array<ParagraphListWrapper | BlockOldHTML | BlockTextHTML>;
+  fieldSidebarParagraphs?: Array<BlockLinkList | BlockOldHTML>;
 
   constructor(params: ConstructorType<CMSLandingContent>) {
     this.title = params.title;
@@ -26,5 +32,7 @@ export class CMSLandingContent {
     this.breadcrumbs = params.breadcrumbs;
     this.dataLayer = params.dataLayer;
     this.richSnippets = params.richSnippets;
+    this.fieldContentParagraphs = params.fieldContentParagraphs;
+    this.fieldSidebarParagraphs = params.fieldSidebarParagraphs;
   }
 }

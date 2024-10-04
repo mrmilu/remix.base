@@ -67,7 +67,11 @@ export default defineConfig({
       }
     ]
   },
-  
+
+  optimizeDeps: {
+    include: ["class-transformer", "@schema-data-loader/core/decorators", "@schema-data-loader/core/resolver"]
+  },
+
   ssr: {
     optimizeDeps: {
       include: ["class-transformer", "@schema-data-loader/core/decorators", "@schema-data-loader/core/resolver"]
@@ -76,5 +80,8 @@ export default defineConfig({
 
   build: {
     sourcemap: true,
+    commonjsOptions: {
+      transformMixedEsModules: true
+    }
   }
 });

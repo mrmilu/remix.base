@@ -119,8 +119,6 @@ export const meta: MetaFunction<typeof loader> = ({ location, data }) => {
   const copiedData = JSON.parse(JSON.stringify(data));
   builder.deserializeData(copiedData);
 
-  const path = Array.isArray(location.pathname) ? location.pathname.join("/") : "";
-
   const hrefLangs = builder.ssrData[CmsHreflangsSsrFactory.getKey()];
 
   const contentForPath: CMSSerializableContentModel = builder.ssrData[CmsContentForPathSSRFactory.getKey()] as CMSSerializableContentModel;
@@ -133,7 +131,7 @@ export const meta: MetaFunction<typeof loader> = ({ location, data }) => {
       description: hasDescription(content) ? content.description : undefined,
       headerImageURL: hasHeaderImage(content) ? content.headerImage?.fieldMediaImage?.imageStyleUri?.imageWebp : "/assets/images/header.webp",
       hrefLang: hrefLangs ?? undefined,
-      path
+      path: location.pathname
     }
   ];
 };

@@ -9,6 +9,5 @@ export function JsonApiPage() {
 
   const cmsContentModel = data.toDomain();
   const { content } = cmsContentModel;
-
-  return <pre>{JSON.stringify({ content, hrefLangs })}</pre>;
+  return <pre>{JSON.stringify({ content, hrefLangs }, null, 4)}</pre>;
 }
