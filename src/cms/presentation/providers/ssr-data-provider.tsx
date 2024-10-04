@@ -23,7 +23,6 @@ export function SsrDataProvider({ builder, ssrSerializedData, children }: Props)
     builderRef.current.deserializeData(copiedData);
   }
 
-  console.log("sfdkld", builderRef.current.ssrData);
   return <SsrDataContext.Provider value={builderRef.current.ssrData}>{children}</SsrDataContext.Provider>;
 }
 
