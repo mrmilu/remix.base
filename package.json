@@ -60,6 +60,7 @@
     "@commitlint/prompt-cli": "~19.5.0",
     "@remix-run/dev": "^2.12.1",
     "@schema-data-loader/eslint-plugin": "~0.0.1",
+    "@swc/core": "^1.7.26",
     "@types/lodash": "^4.17.9",
     "@types/react": "^18.3.9",
     "@types/react-dom": "^18.3.0",

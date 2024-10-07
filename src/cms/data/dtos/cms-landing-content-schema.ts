@@ -7,11 +7,11 @@ import { CMSLandingContent } from "@/src/cms/domain/models/cms-landing-content";
 import { Breadcrumb, BreadcrumbItem } from "@/src/cms/domain/models/breadcrumb";
 import { Datalayer } from "@/src/cms/domain/models/datalayer";
 import { RichSnippetMetatagSchema } from "@/src/cms/data/dtos/rich-snippet-metatag-schema";
-// import { BlockTextHTMLSchema } from "@/src/cms/data/dtos/block/block-text-html-schema";
-// import { BlockOldHTMLSchema } from "@/src/cms/data/dtos/block/block-old-html-schema";
-// import { BlockLinkListSchema } from "@/src/cms/data/dtos/block/block-link-list-schema";
+import { BlockTextHTMLSchema } from "@/src/cms/data/dtos/block/block-text-html-schema";
+import { BlockOldHTMLSchema } from "@/src/cms/data/dtos/block/block-old-html-schema";
+import { BlockLinkListSchema } from "@/src/cms/data/dtos/block/block-link-list-schema";
 import type { DataModel } from "@/src/shared/data/models/data-model";
-// import { ParagraphListWrapperSchema } from "./paragraph/paragraph-list-wrapper-schema";
+import { ParagraphListWrapperSchema } from "./paragraph/paragraph-list-wrapper-schema";
 
 export function extractBreadcrumbs(obj: Record<string, never>, resultArray: Array<BreadcrumbItem> = []) {
   for (const key in obj) {
@@ -57,46 +57,48 @@ export class CMSLandingContentSchema implements DataModel<CMSLandingContent> {
 
   fieldDatalayerCategory = "";
 
-  // @Union({
-  //   discriminatorProperty: "type",
-  //   subTypes: [
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_car_list" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_table" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_review" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_location" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_base" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_card_big" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_miniblock_locality" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_miniblock_road" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_miniblock_info" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_miniblock_feature" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_miniblock_beach" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_features" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_type_list" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_location_list_big" },
-  //     { value: ParagraphListWrapperSchema, name: "paragraph--container_faq" },
-  //     { value: BlockOldHTMLSchema, name: "paragraph--block_old_html" },
-  //     { value: BlockTextHTMLSchema, name: "paragraph--block_text_html" }
-  //   ]
-  // })
-  // @Entity()
-  // fieldContentParagraphs?: Array<ParagraphListWrapperSchema | BlockOldHTMLSchema | BlockTextHTMLSchema> = [];
+  @Entity()
+  @Union({
+    discriminatorProperty: "type",
+    subTypes: [
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_car_list" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_table" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_review" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_location" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_base" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_card_big" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_miniblock_locality" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_miniblock_road" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_miniblock_info" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_miniblock_feature" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_miniblock_beach" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_features" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_type_list" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_location_list_big" },
+      { value: ParagraphListWrapperSchema, name: "paragraph--container_faq" },
+      { value: BlockOldHTMLSchema, name: "paragraph--block_old_html" },
+      { value: BlockTextHTMLSchema, name: "paragraph--block_text_html" }
+    ]
+  })
+  fieldContentParagraphs?: Array<ParagraphListWrapperSchema | BlockOldHTMLSchema | BlockTextHTMLSchema> = [];
 
-  // @Union({
-  //   discriminatorProperty: "type",
-  //   subTypes: [
-  //     { value: BlockOldHTMLSchema, name: "paragraph--block_old_html" },
-  //     { value: BlockLinkListSchema, name: "paragraph--block_link_list" }
-  //   ]
-  // })
-  // @Entity()
-  // fieldSidebarParagraphs?: Array<BlockOldHTMLSchema | BlockLinkListSchema> = [];
+  @Entity()
+  @Union({
+    discriminatorProperty: "type",
+    subTypes: [
+      { value: BlockOldHTMLSchema, name: "paragraph--block_old_html" },
+      { value: BlockLinkListSchema, name: "paragraph--block_link_list" }
+    ]
+  })
+  fieldSidebarParagraphs?: Array<BlockOldHTMLSchema | BlockLinkListSchema> = [];
 
   @Type(() => RichSnippetMetatagSchema)
   metatag: Array<RichSnippetMetatagSchema> = [];
 
   toDomain(): CMSLandingContent {
     return new CMSLandingContent({
+      fieldSidebarParagraphs: this.fieldSidebarParagraphs?.map((p) => p.toDomain()) ?? [],
+      fieldContentParagraphs: this.fieldContentParagraphs?.map((p) => p.toDomain()) ?? [],
       title: this.fieldTitlePublic,
       htmlTitle: this.fieldTitleHtml?.toDomain(),
       body: this.fieldBody?.toDomain(),
@@ -112,8 +114,6 @@ export class CMSLandingContentSchema implements DataModel<CMSLandingContent> {
         pageSection: "alquiler-de-coches",
         pageType: "landing-destinos"
       }),
-      // fieldContentParagraphs: this.fieldContentParagraphs?.map((p) => p.toDomain()) ?? [],
-      // fieldSidebarParagraphs: this.fieldSidebarParagraphs?.map((p) => p.toDomain()) ?? [],
       richSnippets: this.metatag.map((e) => e.toDomain())
     });
   }
