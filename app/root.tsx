@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { Form, Link, Links, Meta, Outlet, Scripts, ScrollRestoration, useFormAction, useLoaderData, useRouteLoaderData } from "@remix-run/react";
 import { useAuthProvider } from "@/src/shared/presentation/providers/auth.provider";
 import { Button } from "@/src/shared/presentation/components/button/button";
@@ -78,6 +80,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 </li>
                 <li>
                   <Link to="/posts">list post</Link>
+                </li>
+                <li>
+                  <Link to="/quienes-somos">JSON API page</Link>
                 </li>
               </ul>
               <Form method="POST" action={action}>

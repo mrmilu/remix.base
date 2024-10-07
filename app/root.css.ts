@@ -56,6 +56,19 @@ globalStyle(`${ul} > li`, {
   listStyle: "none"
 });
 
+globalStyle("pre", {
+  width: "100%",
+  padding: "0",
+  margin: "0",
+  overflow: "auto",
+  overflowY: "hidden",
+  fontSize: "12px",
+  lineHeight: "20px",
+  background: "#efefef",
+  border: "1px solid #777",
+  fontFamily:
+    'Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace'
+});
 const classes = {
   wrapper,
   main,

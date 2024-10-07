@@ -1,4 +1,4 @@
-import type { ConstructorType } from "@/src/shared/domain/models/constructor-type";
+import type { ConstructorType } from "@/src/shared/domain/types/constructor-type";
 
 export class Page<T> {
   items: Array<T> = [];
