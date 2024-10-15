@@ -6,6 +6,9 @@ RUN corepack enable
 FROM base AS deps
 WORKDIR /app
 
+#Copy the scripts to the container
+COPY scripts ./scripts   
+
 # Install necessary dependencies
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
