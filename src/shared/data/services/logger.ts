@@ -12,7 +12,7 @@ export class Logger implements ILogger {
   }
 
   logInfo(message: string): void {
-    if (this.isProduction) {
+    if (this.isProduction && process.env.NEXT_PUBLIC_SENTRY_ENABLED) {
       captureMessage(message);
     } else {
       console.log(message);
@@ -20,7 +20,7 @@ export class Logger implements ILogger {
   }
 
   logError(error: BaseError): void {
-    if (this.isProduction) {
+    if (this.isProduction && process.env.NEXT_PUBLIC_SENTRY_ENABLED) {
       captureException(error);
     } else {
       console.error(error);

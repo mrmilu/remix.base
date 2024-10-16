@@ -1,13 +1,21 @@
 import { logError } from "@/src/shared/presentation/utils/log-error";
 import type { SsrData, SsrErrors } from "./ssr_data";
 import type { LogAndSaveError, SsrDataFactory } from "./ssr_data_factory";
+import { err, ok } from "neverthrow";
+import { BaseError, ErrorCode } from "../domain/models/base-error-proposal";
+import { TYPES } from "@/ioc/__generated__/types";
+import type { ILogger } from "../domain/interfaces/logger";
+import { locator } from "@/ioc/__generated__";
 
 export class SsrDataBuilder {
   ssrData: SsrData = {};
   ssrSerializedData: SsrData = {};
   ssrErrors: SsrErrors = {};
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(private readonly factories: Array<SsrDataFactory<any>>) {}
+
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private readonly factories: Array<SsrDataFactory<any>>
+  ) {}
 
   async createData() {
     const logAndSaveError: LogAndSaveError = (key, error) => {
@@ -22,25 +30,46 @@ export class SsrDataBuilder {
   }
 
   serializeData() {
+    const logger = locator.get<ILogger>(TYPES.ILogger);
+
     for (const [key, value] of Object.entries(this.ssrData)) {
-      const factory = this.getFactory(key);
-      this.ssrSerializedData[key] = factory.serialize(value);
+      this.getFactory(key)
+        .map((factory) => {
+          this.ssrSerializedData[key] = factory.serialize(value);
+        })
+        .mapErr(logger.logError);
     }
   }
 
   deserializeData(serializedData: SsrData) {
+    const logger = locator.get<ILogger>(TYPES.ILogger);
+
     this.ssrSerializedData = serializedData;
+
     for (const [key, value] of Object.entries(serializedData)) {
-      const factory = this.getFactory(key);
-      this.ssrData[key] = factory.deserialize(value);
+      this.getFactory(key)
+        .map((factory) => {
+          this.ssrData[key] = factory.deserialize(value);
+        })
+        .mapErr(logger.logError);
     }
   }
 
-  private getFactory(key: string): SsrDataFactory<unknown> {
+  private getFactory(key: string) {
     const factory = this.factories.find((factory) => factory.key === key);
+
     if (!factory) {
-      throw new Error(`SSRDataFactory with key ${key} not found`);
+      return err(
+        new BaseError({
+          code: ErrorCode.NOT_FOUND_ERROR,
+          details: [{ type: "ErrorInfo", domain: "domain", metadata: { factories: this.factories, key: key } }],
+          message: `SSRDataFactory with key ${key} not found`,
+          origin: "SsrDataBuilder",
+          recoverable: true,
+          avoidable: false
+        })
+      );
     }
-    return factory;
+    return ok(factory);
   }
 }
