@@ -4,27 +4,44 @@ import { TYPES } from "@/ioc/__generated__/types";
 import type { IEnvVars } from "@/src/shared/domain/interfaces/env-vars";
 import type { IRestDataSource, RestDataSourceOptions } from "@/src/shared/domain/interfaces/rest-data-source";
 import { generatorConf } from "inversify-generator/decorators";
+import type { ILogger } from "@/src/shared/domain/interfaces/logger";
 
 @injectable()
 @generatorConf({ typeName: "CMSService" })
 export class CMSService implements IRestDataSource {
   private readonly httpClient: RestClient;
 
-  constructor(@inject(TYPES.IEnvVars) envVars: IEnvVars) {
+  constructor(
+    @inject(TYPES.IEnvVars) envVars: IEnvVars,
+    @inject(TYPES.ILogger) private readonly logger: ILogger
+  ) {
     this.httpClient = new RestClient(`${envVars.cmsApiUrl}`);
   }
 
   async get<T = unknown>(url: string, { params, headers }: RestDataSourceOptions = {}): Promise<T> {
-    const res = await this.httpClient.get<T>(url, {
+    const result = await this.httpClient.get<T>(url, {
       params,
       headers
     });
 
-    return res.data;
+    if (result.isErr()) {
+      this.logger.logError(result.error);
+
+      throw result.error;
+    }
+
+    return result.value.data;
   }
 
   async post<T, D>(url: string, options?: PostRequestOptions<D>): Promise<T> {
-    const res = await this.httpClient.post<T, D>(url, options);
-    return res.data;
+    const result = await this.httpClient.post<T, D>(url, options);
+
+    if (result.isErr()) {
+      this.logger.logError(result.error);
+
+      throw result.error;
+    }
+
+    return result.value.data;
   }
 }

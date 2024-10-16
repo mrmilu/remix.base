@@ -1,3 +1,5 @@
+import { locator } from "@/ioc/__generated__";
+import { TYPES } from "@/ioc/__generated__/types";
 import type { CMSSerializableContentModel } from "@/src/cms/domain/models/cms-content-model";
 import { JsonApiPage } from "@/src/cms/presentation/pages/json-api-page";
 import { SsrDataProvider } from "@/src/cms/presentation/providers/ssr-data-provider";
@@ -5,6 +7,8 @@ import { CmsContentForPathSSRFactory } from "@/src/cms/ssr/cms_content_for_path_
 import { CmsHreflangsSsrFactory } from "@/src/cms/ssr/cms_hreflangs_ssr_factory";
 import { CmsMenusSSRFactory } from "@/src/cms/ssr/cms_menus_ssr_factory";
 import { CmsSiteSettingsSSRFactory } from "@/src/cms/ssr/cms_site_settings_ssr_factory";
+import { safeClone } from "@/src/shared/data/utils/safe-clone";
+import type { ILogger } from "@/src/shared/domain/interfaces/logger";
 import { CacheHeadersBuilder } from "@/src/shared/domain/models/cache-headers-builder";
 import { fallbackLng, type Languages } from "@/src/shared/presentation/i18n";
 import i18nServer from "@/src/shared/presentation/i18n/i18n.server";
@@ -108,6 +112,19 @@ const hasHeaderImage = (obj: unknown): obj is MetadataProp => {
 };
 
 export const meta: MetaFunction<typeof loader> = ({ location, data }) => {
+  if (!data) {
+    return [];
+  }
+
+  const logger = locator.get<ILogger>(TYPES.ILogger);
+
+  const parseResult = safeClone(data);
+
+  if (parseResult.isErr()) {
+    logger.logError(parseResult.error);
+    return [];
+  }
+
   const builder = new SsrDataBuilder([
     new CmsContentForPathSSRFactory(),
     new CmsHreflangsSsrFactory(),
@@ -116,8 +133,7 @@ export const meta: MetaFunction<typeof loader> = ({ location, data }) => {
     new IsMobileSsrFactory()
   ]);
 
-  const copiedData = JSON.parse(JSON.stringify(data));
-  builder.deserializeData(copiedData);
+  builder.deserializeData(parseResult.value);
 
   const hrefLangs = builder.ssrData[CmsHreflangsSsrFactory.getKey()];
 

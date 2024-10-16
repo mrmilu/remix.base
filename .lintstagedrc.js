@@ -1,3 +1,4 @@
 export default {
-  "**/*": [() => "just nvm-exec 'pnpm check-types'", () => "just nvm-exec 'pnpm lint'", () => "just nvm-exec 'pnpm prettier-check'"]
+  "**/*.{js,jsx,ts,tsx}": "eslint",
+  "**/*.{ts,tsx}": () => "tsc --project tsconfig.json"
 };

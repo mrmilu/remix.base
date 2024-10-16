@@ -21,6 +21,15 @@ build:
 start:
     ./nvm_exec.sh pnpm start
 
+# Runs tsc to check types
+check-types:
+    ./nvm_exec.sh pnpm check-types
+
+# Runs linting
+lint:
+    ./nvm_exec.sh pnpm lint
+    ./nvm_exec.sh pnpm prettier
+
 # Runs linting and formatting.
 fix:
     ./nvm_exec.sh pnpm lint-fix
