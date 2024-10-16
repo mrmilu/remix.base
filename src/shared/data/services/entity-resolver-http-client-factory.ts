@@ -10,7 +10,7 @@ import { generatorConf } from "inversify-generator/decorators";
 import { safeJsonParse } from "../transformers/safe-json-parse";
 import { safeJsonStringify } from "../transformers/safe-json-stringify";
 import { err } from "neverthrow";
-import type { ILogger } from "../../domain/interfaces/logger";
+import { logError } from "./logger";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace global {
@@ -23,8 +23,7 @@ class EntityResolverHttpClient implements IHttpClient {
     private readonly language: Languages,
     private readonly client: RestClient,
     private readonly cacheHeadersBuilder: CacheHeadersBuilder | null,
-    private readonly useCache: boolean,
-    private readonly logger: ILogger
+    private readonly useCache: boolean
   ) {}
 
   async get<D = unknown>(url: string, params?: Record<string, unknown>): Promise<D> {
@@ -41,7 +40,7 @@ class EntityResolverHttpClient implements IHttpClient {
     const responseResult = await this.client.get<any>(route, { params });
 
     if (responseResult.isErr()) {
-      this.logger.logError(responseResult.error);
+      logError(responseResult.error);
 
       throw responseResult.error;
     }
@@ -82,14 +81,11 @@ class EntityResolverHttpClient implements IHttpClient {
 export class EntityResolverHttpClientFactory implements IEntityResolverHttpClientFactory {
   private readonly client: RestClient;
 
-  constructor(
-    @inject(TYPES.IEnvVars) private readonly envVars: IEnvVars,
-    @inject(TYPES.ILogger) private readonly logger: ILogger
-  ) {
+  constructor(@inject(TYPES.IEnvVars) private readonly envVars: IEnvVars) {
     this.client = new RestClient(envVars.cmsApiUrl);
   }
 
   create(language: Languages, cacheHeadersBuilder: CacheHeadersBuilder | null): IHttpClient {
-    return new EntityResolverHttpClient(language, this.client, cacheHeadersBuilder, this.envVars.useEntityResolverCache, this.logger);
+    return new EntityResolverHttpClient(language, this.client, cacheHeadersBuilder, this.envVars.useEntityResolverCache);
   }
 }

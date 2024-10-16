@@ -1,11 +1,8 @@
-import { logError } from "@/src/shared/presentation/utils/log-error";
 import type { SsrData, SsrErrors } from "./ssr_data";
 import type { LogAndSaveError, SsrDataFactory } from "./ssr_data_factory";
 import { err, ok } from "neverthrow";
 import { BaseError, ErrorCode } from "../domain/models/base-error-proposal";
-import { TYPES } from "@/ioc/__generated__/types";
-import type { ILogger } from "../domain/interfaces/logger";
-import { locator } from "@/ioc/__generated__";
+import { logError } from "../data/services/logger";
 
 export class SsrDataBuilder {
   ssrData: SsrData = {};
@@ -19,7 +16,6 @@ export class SsrDataBuilder {
 
   async createData() {
     const logAndSaveError: LogAndSaveError = (key, error) => {
-      logError(error);
       this.ssrErrors[key] = error;
     };
     await Promise.all(
@@ -30,20 +26,16 @@ export class SsrDataBuilder {
   }
 
   serializeData() {
-    const logger = locator.get<ILogger>(TYPES.ILogger);
-
     for (const [key, value] of Object.entries(this.ssrData)) {
       this.getFactory(key)
         .map((factory) => {
           this.ssrSerializedData[key] = factory.serialize(value);
         })
-        .mapErr(logger.logError);
+        .mapErr(logError);
     }
   }
 
   deserializeData(serializedData: SsrData) {
-    const logger = locator.get<ILogger>(TYPES.ILogger);
-
     this.ssrSerializedData = serializedData;
 
     for (const [key, value] of Object.entries(serializedData)) {
@@ -51,7 +43,7 @@ export class SsrDataBuilder {
         .map((factory) => {
           this.ssrData[key] = factory.deserialize(value);
         })
-        .mapErr(logger.logError);
+        .mapErr(logError);
     }
   }
 

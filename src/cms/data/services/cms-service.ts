@@ -4,17 +4,14 @@ import { TYPES } from "@/ioc/__generated__/types";
 import type { IEnvVars } from "@/src/shared/domain/interfaces/env-vars";
 import type { IRestDataSource, RestDataSourceOptions } from "@/src/shared/domain/interfaces/rest-data-source";
 import { generatorConf } from "inversify-generator/decorators";
-import type { ILogger } from "@/src/shared/domain/interfaces/logger";
+import { logError } from "@/src/shared/data/services/logger";
 
 @injectable()
 @generatorConf({ typeName: "CMSService" })
 export class CMSService implements IRestDataSource {
   private readonly httpClient: RestClient;
 
-  constructor(
-    @inject(TYPES.IEnvVars) envVars: IEnvVars,
-    @inject(TYPES.ILogger) private readonly logger: ILogger
-  ) {
+  constructor(@inject(TYPES.IEnvVars) envVars: IEnvVars) {
     this.httpClient = new RestClient(`${envVars.cmsApiUrl}`);
   }
 
@@ -25,7 +22,7 @@ export class CMSService implements IRestDataSource {
     });
 
     if (result.isErr()) {
-      this.logger.logError(result.error);
+      logError(result.error);
 
       throw result.error;
     }
@@ -37,7 +34,7 @@ export class CMSService implements IRestDataSource {
     const result = await this.httpClient.post<T, D>(url, options);
 
     if (result.isErr()) {
-      this.logger.logError(result.error);
+      logError(result.error);
 
       throw result.error;
     }

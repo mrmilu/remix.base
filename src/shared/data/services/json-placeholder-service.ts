@@ -4,17 +4,14 @@ import { TYPES } from "@/src/shared/ioc/__generated__/types";
 import { RestClient } from "@/src/shared/data/services/rest-client";
 import { inject, injectable } from "inversify";
 import { generatorConf } from "inversify-generator/decorators";
-import type { ILogger } from "../../domain/interfaces/logger";
+import { logError } from "./logger";
 
 @injectable()
 @generatorConf({ typeName: "JSONPlaceholderService" })
 export class JSONPlaceholderService implements IRestDataSource {
   private readonly jsonPlaceholderClient: RestClient;
 
-  constructor(
-    @inject(TYPES.IEnvVars) envVars: IEnvVars,
-    @inject(TYPES.ILogger) private readonly logger: ILogger
-  ) {
+  constructor(@inject(TYPES.IEnvVars) envVars: IEnvVars) {
     this.jsonPlaceholderClient = new RestClient(envVars.serverUrl);
   }
 
@@ -24,7 +21,7 @@ export class JSONPlaceholderService implements IRestDataSource {
     });
 
     if (result.isErr()) {
-      this.logger.logError(result.error);
+      logError(result.error);
 
       throw result.error;
     }
@@ -36,7 +33,7 @@ export class JSONPlaceholderService implements IRestDataSource {
     const result = await this.jsonPlaceholderClient.post<T, D>(url, options);
 
     if (result.isErr()) {
-      this.logger.logError(result.error);
+      logError(result.error);
 
       throw result.error;
     }

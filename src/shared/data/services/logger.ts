@@ -1,29 +1,20 @@
-import { injectable } from "inversify";
-import { generatorConf } from "inversify-generator/decorators";
-import type { ILogger } from "@/src/shared/domain/interfaces/logger";
-import type { BaseError } from "@/src/shared/domain/models/base-error-proposal";
 import { captureException, captureMessage } from "@sentry/remix";
+import type { BaseError } from "../../domain/models/base-error-proposal";
 
-@injectable()
-@generatorConf({ binding: "default" })
-export class Logger implements ILogger {
-  get isProduction() {
-    return process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === "production";
+
+export function logInfo(message: string) {
+  if (isProduction && process.env.NEXT_PUBLIC_SENTRY_ENABLED) {
+    captureMessage(message);
+  } else {
+    console.log(message);
   }
+}
 
-  logInfo(message: string): void {
-    if (this.isProduction && process.env.NEXT_PUBLIC_SENTRY_ENABLED) {
-      captureMessage(message);
-    } else {
-      console.log(message);
-    }
-  }
-
-  logError(error: BaseError): void {
-    if (this.isProduction && process.env.NEXT_PUBLIC_SENTRY_ENABLED) {
-      captureException(error);
-    } else {
-      console.error(error);
-    }
+export function logError(error: BaseError) {
+  if (isProduction && process.env.NEXT_PUBLIC_SENTRY_ENABLED) {
+    captureException(error);
+  } else {
+    console.error(error);
   }
 }

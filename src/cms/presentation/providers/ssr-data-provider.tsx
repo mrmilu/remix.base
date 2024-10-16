@@ -3,12 +3,10 @@ import { createContext, useContext, useRef } from "react";
 import type { SsrData, SsrSerializedData } from "@/src/shared/ssr/ssr_data";
 import type { SsrDataBuilder } from "@/src/shared/ssr/ssr_data_builder";
 import { safeClone } from "@/src/shared/data/utils/safe-clone";
-import { locator } from "@/ioc/__generated__";
-import type { ILogger } from "@/src/shared/domain/interfaces/logger";
-import { TYPES } from "@/ioc/__generated__/types";
 import type { Result } from "neverthrow";
 import { err, ok } from "neverthrow";
 import { BaseError, ErrorCode } from "@/src/shared/domain/models/base-error-proposal";
+import { logError } from "@/src/shared/data/services/logger";
 const SsrDataContext = createContext<SsrData | null>(null);
 
 interface Props extends PropsWithChildren {
@@ -17,8 +15,6 @@ interface Props extends PropsWithChildren {
 }
 
 export function SsrDataProvider({ builder, ssrSerializedData, children }: Props) {
-  const logger = locator.get<ILogger>(TYPES.ILogger);
-
   const isDeserialized = useRef(false);
   const builderRef = useRef(builder);
 
@@ -29,7 +25,7 @@ export function SsrDataProvider({ builder, ssrSerializedData, children }: Props)
     const copiedData = safeClone(ssrSerializedData);
 
     if (copiedData.isErr()) {
-      logger.logError(copiedData.error);
+      logError(copiedData.error);
     } else {
       builderRef.current.deserializeData(copiedData.value);
     }
