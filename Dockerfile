@@ -2,6 +2,9 @@
 FROM node:20-alpine AS base
 RUN corepack enable
 
+# Install git
+RUN apk add --no-cache git
+
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
@@ -27,6 +30,8 @@ COPY . .
 # secrets like API keys.
 RUN --mount=type=secret,id=remix_env_variables \
     cat /run/secrets/remix_env_variables > .env
+
+RUN pnpm ioc-generate
 
 RUN pnpm build
 
